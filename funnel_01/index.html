@@ -1,0 +1,570 @@
+<!-- HOW TO EDIT: search "REPLACE-ME" for content to add, "INTEGRATION POINT" for platforms to connect. -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Vitality Circle — Strength &amp; Balance Training for Life After 60</title>
+<meta name="description" content="Small-group strength, balance, and social fitness classes built for adults 55+. Certified senior-fitness trainers. Your first session is free.">
+<link rel="canonical" href="#REPLACE-ME-CANONICAL-URL">
+<meta property="og:title" content="Vitality Circle — Strength &amp; Balance Training for Life After 60">
+<meta property="og:description" content="Small-group classes built for balance, not just biceps. First session free.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="#REPLACE-ME-CANONICAL-URL">
+<meta property="og:image" content="#REPLACE-ME-OG-IMAGE-1200x630">
+<meta name="twitter:card" content="summary_large_image">
+<!-- 🔴 REPLACE-ME: favicon — replace this line with a real <link rel="icon" href="..."> -->
+<link rel="icon" href="data:,">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          dominant: 'var(--color-dominant)',
+          secondary: 'var(--color-secondary)',
+          accent: 'var(--color-accent)',
+          ink: 'var(--color-text)',
+          'ink-inverse': 'var(--color-text-inverse)',
+          line: 'var(--color-line)'
+        },
+        fontFamily: {
+          serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+          sans: ['"Public Sans"', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  /* ============ COLOR SYSTEM — 3-color cap: dominant / secondary / accent ============ */
+  :root {
+    --color-dominant: #F8F7F2;      /* 60% — warm off-white canvas */
+    --color-secondary: #ECEFE6;     /* 30% — same neutral family, sage-tinted */
+    --color-accent: #2F5D45;        /* 10% — the ONLY color on the page; CTAs + links only */
+    --color-text: #2A2E27;          /* warm near-black, ~14.8:1 on dominant */
+    --color-text-inverse: #FFFFFF;  /* ~7.3:1 on accent */
+    --color-line: #DBDFD3;          /* neutral border/divider tone, same family */
+  }
+
+  /* Senior-accessible base scale: bump root size so all rem-based Tailwind utilities scale up */
+  html { font-size: 112.5%; scroll-behavior: smooth; } /* ~18px base */
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body { background: var(--color-dominant); color: var(--color-text); }
+
+  ::selection { background: var(--color-accent); color: var(--color-text-inverse); }
+
+  .prose-copy { max-width: 62ch; }
+
+  /* Single reusable border-radius pair, per Section 4 shape rule */
+  .r-card { border-radius: 1.25rem; }     /* cards */
+  .r-pill { border-radius: 999px; }       /* buttons / pills / circular motif */
+
+  /* Focus visibility */
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, summary:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  /* REPLACE-ME visual marker — fixed magenta regardless of page palette (intentional exception) */
+  .replace-me {
+    background-image: repeating-linear-gradient(45deg,#fdf2f8,#fdf2f8 10px,#fce7f3 10px,#fce7f3 20px);
+  }
+
+  /* Circular step + avatar motif (Vitality "Circle" brand device — used sparingly) */
+  .circle-badge {
+    width: 3.25rem; height: 3.25rem; border-radius: 999px;
+    border: 2px solid var(--color-accent); color: var(--color-accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Source Serif 4', serif; font-weight: 600; font-size: 1.125rem;
+    flex-shrink: 0; background: var(--color-dominant);
+  }
+
+  /* Primary CTA button states */
+  .btn-primary {
+    background: var(--color-accent); color: var(--color-text-inverse);
+    transition: transform 150ms ease, opacity 150ms ease, box-shadow 150ms ease;
+  }
+  .btn-primary:hover { opacity: 0.92; box-shadow: 0 6px 20px -6px rgba(47,93,69,0.45); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-ghost {
+    border: 1.5px solid var(--color-line); color: var(--color-text);
+    transition: border-color 150ms ease, background 150ms ease;
+  }
+  .btn-ghost:hover { border-color: var(--color-accent); background: var(--color-secondary); }
+
+  .link-affordance { text-decoration: underline; text-underline-offset: 3px; font-weight: 600; color: var(--color-accent); }
+
+  /* FAQ accordion chevron rotation */
+  details[open] summary .chev { transform: rotate(180deg); }
+  .chev { transition: transform 200ms ease; }
+
+  /* Prevent x-scroll at narrow widths */
+  html, body { max-width: 100%; overflow-x: hidden; }
+
+  [data-animate] { opacity: 1; } /* default visible; GSAP overrides on load when motion allowed */
+
+  /* Uniform logo/badge tile — consistent bounding box regardless of source image proportions */
+  .logo-tile {
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+  .logo-tile img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; }
+</style>
+</head>
+<body class="font-sans text-ink antialiased">
+
+<!-- ================= STICKY HEADER / CTA BAR ================= -->
+<header class="sticky top-0 z-50 bg-dominant/95 backdrop-blur border-b" style="border-color:var(--color-line);">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+    <a href="#top" class="font-serif text-xl font-semibold tracking-tight" style="color:var(--color-text);">
+      Vitality Circle
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-sm font-medium" aria-label="Primary">
+      <a href="#program" class="hover:text-accent" style="color:var(--color-text);">The Program</a>
+      <a href="#how-it-works" class="hover:text-accent" style="color:var(--color-text);">How It Works</a>
+      <a href="#faq" class="hover:text-accent" style="color:var(--color-text);">Questions</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="tel:#1 (555) 123-4567" class="hidden sm:flex items-center gap-2 text-sm font-semibold" style="color:var(--color-text);">
+        <i data-lucide="phone" class="w-4 h-4" style="color:var(--color-accent);" aria-hidden="true"></i>
+        <span>#1 (555) 123-4567</span>
+      </a>
+      <a href="#book" class="btn-primary r-pill px-5 py-3 text-sm font-semibold inline-flex items-center" style="min-height:48px;">
+        Book My Free Session
+      </a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= HERO ================= -->
+  <section class="max-w-6xl mx-auto px-6 pt-14 pb-16 md:pt-20 md:pb-24 grid md:grid-cols-2 gap-12 items-center">
+    <div data-animate="hero-text">
+      <p class="text-sm font-semibold mb-4" style="color:var(--color-accent);">A calm, small-group studio for adults 55+</p>
+      <h1 class="font-serif font-semibold leading-tight" style="font-size:clamp(2.25rem,4vw,3.5rem); line-height:1.15;">
+        Strength Training Built for Life After 60
+      </h1>
+      <p class="mt-6 text-lg md:text-xl leading-relaxed prose-copy" style="color:var(--color-text);">
+        Small classes, certified trainers, and a space designed around balance and joint safety — not loud music and mirrors. Come try it before you decide anything.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row gap-4">
+        <a href="#book" class="btn-primary r-pill px-7 py-4 text-base font-semibold text-center inline-flex items-center justify-center gap-2" style="min-height:52px;">
+          <i data-lucide="calendar-check" class="w-5 h-5" aria-hidden="true"></i>
+          Book My Free First Session
+        </a>
+        <a href="tel:#1 (555) 123-4567" class="btn-ghost r-pill px-7 py-4 text-base font-semibold text-center inline-flex items-center justify-center gap-2" style="min-height:52px;">
+          <i data-lucide="phone" class="w-5 h-5" style="color:var(--color-accent);" aria-hidden="true"></i>
+          Or Call Us Directly
+        </a>
+      </div>
+      <p class="mt-4 text-sm" style="color:var(--color-text); opacity:0.75;">No contract. No pressure. Just come see the space.</p>
+    </div>
+
+    <!-- 🔴 REPLACE-ME [IMAGE #1]: Hero photo — real class in session, warm/candid, adults 55+ | 1200x1000 | PNG/WebP -->
+    <div class="aspect-[6/5] w-full">
+      <img src="public/hero_photo.jpeg" alt="Small group of older adults doing balance exercises with a trainer" class="w-full h-full object-cover r-card">
+    </div>
+  </section>
+
+  <!-- soft arc divider — the one decorative flourish, tied to the "Circle" name -->
+  <div class="max-w-6xl mx-auto px-6" aria-hidden="true">
+    <svg viewBox="0 0 1200 40" class="w-full h-auto" preserveAspectRatio="none">
+      <path d="M0,10 Q600,40 1200,10" fill="none" stroke="var(--color-line)" stroke-width="1.5"/>
+    </svg>
+  </div>
+
+  <!-- ================= PROBLEM (Character + Problem) ================= -->
+  <section class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <div class="max-w-2xl mb-12" data-animate="fade-up">
+      <h2 class="font-serif font-semibold" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+        You want to stay strong and stay yourself
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed" style="opacity:0.85;">
+        Not weaker, not more cautious, not stuck at home. Just steady on your feet and confident in your own body. Most gyms make that harder, not easier.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="bg-secondary r-card p-7" data-animate="fade-up">
+        <i data-lucide="volume-x" class="w-6 h-6 mb-4" style="color:var(--color-text); opacity:0.6;" aria-hidden="true"></i>
+        <h3 class="font-serif font-semibold text-lg mb-2">Built for someone else</h3>
+        <p class="leading-relaxed" style="opacity:0.85;">Loud music, mirrored walls, and machines sized for a twenty-five-year-old's joints. Fall-prevention isn't even on the schedule.</p>
+      </div>
+      <div class="bg-secondary r-card p-7" data-animate="fade-up">
+        <i data-lucide="heart-crack" class="w-6 h-6 mb-4" style="color:var(--color-text); opacity:0.6;" aria-hidden="true"></i>
+        <h3 class="font-serif font-semibold text-lg mb-2">The quiet worry</h3>
+        <p class="leading-relaxed" style="opacity:0.85;">A fear of getting hurt, of feeling out of place, of starting something and not being able to keep up. That worry keeps a lot of people home.</p>
+      </div>
+      <div class="bg-secondary r-card p-7" data-animate="fade-up">
+        <i data-lucide="scale" class="w-6 h-6 mb-4" style="color:var(--color-text); opacity:0.6;" aria-hidden="true"></i>
+        <h3 class="font-serif font-semibold text-lg mb-2">A false choice</h3>
+        <p class="leading-relaxed" style="opacity:0.85;">Staying active shouldn't mean risking a fall, and staying safe shouldn't mean giving up strength. You deserve both at once.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= GUIDE (empathy + authority) ================= -->
+  <section class="bg-secondary">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+      <!-- 🔴 REPLACE-ME [IMAGE #2]: Founder or lead trainer portrait, warm and approachable | 900x900 | PNG/WebP -->
+      <div class="aspect-square w-full order-2 md:order-1">
+        <img src="public/trainer.jpeg" alt="Portrait of the lead trainer, smiling and approachable" class="w-full h-full object-cover r-card">
+      </div>
+      <div class="order-1 md:order-2" data-animate="fade-up">
+        <h2 class="font-serif font-semibold" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+          We built Vitality Circle for exactly this stage of life
+        </h2>
+        <p class="mt-5 text-lg leading-relaxed" style="opacity:0.85;">
+          Every trainer here holds a senior-fitness certification and trains specifically for balance, joint limitations, and how common medications affect exertion. This isn't a side skill for us — it's the whole job.
+        </p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-start gap-3">
+            <i data-lucide="shield-check" class="w-5 h-5 mt-0.5 flex-shrink-0" style="color:var(--color-accent);" aria-hidden="true"></i>
+            <span>Certified senior-fitness trainers on every class</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <i data-lucide="users" class="w-5 h-5 mt-0.5 flex-shrink-0" style="color:var(--color-accent);" aria-hidden="true"></i>
+            <span>Groups capped at 8–10, so every rep gets watched</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <i data-lucide="footprints" class="w-5 h-5 mt-0.5 flex-shrink-0" style="color:var(--color-accent);" aria-hidden="true"></i>
+            <span>Balance and fall-prevention built into the curriculum, not bolted on</span>
+          </li>
+        </ul>
+        <!-- 🔴 REPLACE-ME [IMAGE #3]: Row of 3–5 credential/certification badge logos | SVG/PNG transparent -->
+        <div class="mt-6 max-w-sm">
+          <img src="public/badges.png" alt="Certification badges for senior fitness training" class="w-full h-auto object-contain">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PLAN (3 steps — circular numbering, a real sequence) ================= -->
+  <section id="how-it-works" class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <h2 class="font-serif font-semibold text-center" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+      Three simple steps, nothing to figure out alone
+    </h2>
+    <div class="mt-14 grid md:grid-cols-3 gap-10">
+      <div class="text-center" data-animate="fade-up">
+        <div class="circle-badge mx-auto">1</div>
+        <h3 class="font-serif font-semibold text-lg mt-5 mb-2">Book your free session</h3>
+        <p style="opacity:0.85;">Call, text, or fill out the short form below. We'll find a class time that fits your week.</p>
+      </div>
+      <div class="text-center" data-animate="fade-up">
+        <div class="circle-badge mx-auto">2</div>
+        <h3 class="font-serif font-semibold text-lg mt-5 mb-2">Meet your trainer and try a class</h3>
+        <p style="opacity:0.85;">We'll ask about any joint issues, medications, or concerns first — then ease you in at your pace.</p>
+      </div>
+      <div class="text-center" data-animate="fade-up">
+        <div class="circle-badge mx-auto">3</div>
+        <h3 class="font-serif font-semibold text-lg mt-5 mb-2">Get stronger, steadier, and less alone</h3>
+        <p style="opacity:0.85;">Keep coming back for the strength — most people say they stay for the people.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PROGRAM / OFFER DETAILS ================= -->
+  <section id="program" class="bg-secondary">
+    <div class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+      <div class="max-w-2xl mx-auto text-center mb-12" data-animate="fade-up">
+        <h2 class="font-serif font-semibold" style="font-size:clamp(1.75rem,3vw,2.25rem);">What's included</h2>
+        <p class="mt-4 text-lg leading-relaxed" style="opacity:0.85;">One membership, three kinds of class, all in groups small enough that someone always notices if your form slips.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6 mb-12">
+        <div class="bg-dominant r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+          <i data-lucide="dumbbell" class="w-6 h-6 mb-4" style="color:var(--color-accent);" aria-hidden="true"></i>
+          <h3 class="font-serif font-semibold text-lg mb-2">Low-impact strength</h3>
+          <p style="opacity:0.85;">Resistance training that protects joints while building real, usable strength.</p>
+        </div>
+        <div class="bg-dominant r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+          <i data-lucide="footprints" class="w-6 h-6 mb-4" style="color:var(--color-accent);" aria-hidden="true"></i>
+          <h3 class="font-serif font-semibold text-lg mb-2">Balance &amp; fall-prevention</h3>
+          <p style="opacity:0.85;">Drills built specifically to reduce fall risk and rebuild confidence on your feet.</p>
+        </div>
+        <div class="bg-dominant r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+          <i data-lucide="users" class="w-6 h-6 mb-4" style="color:var(--color-accent);" aria-hidden="true"></i>
+          <h3 class="font-serif font-semibold text-lg mb-2">Social fitness sessions</h3>
+          <p style="opacity:0.85;">Movement that doubles as connection — many members say this is the part they'd miss most.</p>
+        </div>
+      </div>
+
+      <div class="bg-dominant r-card p-8 md:p-10 max-w-3xl mx-auto text-center border" style="border-color:var(--color-line);" data-animate="fade-up">
+        <p class="text-sm font-semibold" style="color:var(--color-accent);">Membership</p>
+        <p class="font-serif font-semibold mt-2" style="font-size:clamp(1.75rem,3vw,2.25rem);">$89–$129/month, unlimited classes</p>
+        <p class="mt-3 opacity-85">Your very first session is free — no card required to try it.</p>
+        <p class="mt-1 text-sm opacity-70">#REPLACE-ME: confirm exact pricing tiers and what determines $89 vs $129</p>
+        <a href="#book" class="btn-primary r-pill px-7 py-4 text-base font-semibold inline-flex items-center justify-center gap-2 mt-6" style="min-height:52px;">
+          <i data-lucide="calendar-check" class="w-5 h-5" aria-hidden="true"></i>
+          Book My Free First Session
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SOCIAL PROOF ================= -->
+  <section class="max-w-6xl mx-auto px-6 py-16 md:py-24">
+    <h2 class="font-serif font-semibold text-center" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+      What members say
+    </h2>
+    <div class="mt-12 grid md:grid-cols-3 gap-6">
+      <div class="r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://ui-avatars.com/api/?name=Diane+R&size=200&background=ECEFE6&color=2F5D45&bold=true&font-size=0.4" alt="Avatar placeholder for Diane R." class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+          <div>
+            <p class="font-semibold text-sm">Diane R.</p>
+            <p class="text-xs opacity-60">68 &middot; member for 14 months</p>
+          </div>
+        </div>
+        <p class="italic leading-relaxed opacity-85">I hadn't done stairs without holding the railing in years. Six months in, I don't even think about it anymore. My trainer noticed my knee favoring one side before I even mentioned it.</p>
+      </div>
+      <div class="r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://ui-avatars.com/api/?name=Walter+G&size=200&background=ECEFE6&color=2F5D45&bold=true&font-size=0.4" alt="Avatar placeholder for Walter G." class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+          <div>
+            <p class="font-semibold text-sm">Walter G.</p>
+            <p class="text-xs opacity-60">74 &middot; member for 2 years</p>
+          </div>
+        </div>
+        <p class="italic leading-relaxed opacity-85">My doctor suggested I find something for balance after a close call in the garage. I found a group of people I actually look forward to seeing three times a week — the fitness part almost feels secondary now.</p>
+      </div>
+      <div class="r-card p-7 border" style="border-color:var(--color-line);" data-animate="fade-up">
+        <div class="flex items-center gap-3 mb-4">
+          <img src="https://ui-avatars.com/api/?name=Carol+M&size=200&background=ECEFE6&color=2F5D45&bold=true&font-size=0.4" alt="Avatar placeholder for Carol M." class="w-12 h-12 rounded-full object-cover flex-shrink-0">
+          <div>
+            <p class="font-semibold text-sm">Carol M.</p>
+            <p class="text-xs opacity-60">61 &middot; member for 8 months</p>
+          </div>
+        </div>
+        <p class="italic leading-relaxed opacity-85">I was nervous I'd be the weakest one in the room. Nobody made me feel that way — the trainer adjusted everything to where I was that first day, and I've gotten stronger every month since.</p>
+      </div>
+    </div>
+    <!-- 🔧 INTEGRATION POINT: Video testimonial embed (e.g., Senja/Tolstoy). Paste embed code here. -->
+
+    <!-- 🔴 REPLACE-ME [IMAGE #4]: "Recommended by local doctors / physical therapists" badge or logo strip | SVG/PNG -->
+    <div class="mt-10 max-w-3xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6" data-animate="fade-up">
+      <div class="logo-tile">
+        <img src="public/comp1.jpeg" alt="Referral badge from local doctors and physical therapists">
+      </div>
+      <div class="logo-tile">
+        <img src="public/comp2.jpeg" alt="Referral badge from local doctors and physical therapists">
+      </div>
+      <div class="logo-tile">
+        <img src="public/comp3.jpeg" alt="Referral badge from local doctors and physical therapists">
+      </div>
+      <div class="logo-tile">
+        <img src="public/comp4.jpeg" alt="Referral badge from local doctors and physical therapists">
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAILURE AVOIDANCE (brief, honest, not fear-mongering) ================= -->
+  <section class="bg-secondary">
+    <div class="max-w-3xl mx-auto px-6 py-14 md:py-20 text-center" data-animate="fade-up">
+      <i data-lucide="alert-triangle" class="w-6 h-6 mx-auto mb-4" style="color:var(--color-text); opacity:0.5;" aria-hidden="true"></i>
+      <p class="text-lg leading-relaxed" style="opacity:0.85;">
+        Strength and balance decline faster without regular training — that's simply how muscle and stability work with age. The good news: both are very trainable, at any starting point.
+      </p>
+    </div>
+  </section>
+
+  <!-- ================= SUCCESS VISION ================= -->
+  <section class="max-w-6xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+    <div data-animate="fade-up">
+      <h2 class="font-serif font-semibold" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+        Picture six months from now
+      </h2>
+      <p class="mt-5 text-lg leading-relaxed" style="opacity:0.85;">
+        Stairs stop being a calculation. You get down on the floor to play with a grandchild and back up without thinking twice. You've got a standing group of people who notice when you don't show up — and you actually look forward to Tuesdays.
+      </p>
+    </div>
+    <!-- 🔴 REPLACE-ME [IMAGE #5]: Members socializing after class, genuine candid moment | 1100x900 | PNG/WebP -->
+    <div class="aspect-[11/9] w-full">
+      <img src="public/aftre_class.jpeg" alt="Members socializing after class, genuine candid moment" class="w-full h-full object-cover r-card">
+    </div>
+  </section>
+
+  <!-- ================= FAQ ================= -->
+  <section id="faq" class="bg-secondary">
+    <div class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+      <h2 class="font-serif font-semibold text-center mb-10" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+        Questions people ask us first
+      </h2>
+      <div class="space-y-3">
+        <details class="bg-dominant r-card p-5 border" style="border-color:var(--color-line);">
+          <summary class="flex items-center justify-between cursor-pointer font-semibold list-none">
+            <span>What if I have a joint issue or health condition?</span>
+            <i data-lucide="chevron-down" class="chev w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+          </summary>
+          <p class="mt-3 leading-relaxed" style="opacity:0.85;">Tell us before your first session. Every trainer is certified to modify around joint limitations, recent surgeries, and common medication side effects.</p>
+        </details>
+        <details class="bg-dominant r-card p-5 border" style="border-color:var(--color-line);">
+          <summary class="flex items-center justify-between cursor-pointer font-semibold list-none">
+            <span>I've never exercised regularly — will I keep up?</span>
+            <i data-lucide="chevron-down" class="chev w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+          </summary>
+          <p class="mt-3 leading-relaxed" style="opacity:0.85;">Most members start exactly here. Classes are capped small so your trainer can pace things to you, not the other way around.</p>
+        </details>
+        <details class="bg-dominant r-card p-5 border" style="border-color:var(--color-line);">
+          <summary class="flex items-center justify-between cursor-pointer font-semibold list-none">
+            <span>I'm nervous about falling. Is that normal here?</span>
+            <i data-lucide="chevron-down" class="chev w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+          </summary>
+          <p class="mt-3 leading-relaxed" style="opacity:0.85;">Completely. Fall-prevention is a core part of what we teach, not an afterthought — and it's the single most common reason people join.</p>
+        </details>
+        <details class="bg-dominant r-card p-5 border" style="border-color:var(--color-line);">
+          <summary class="flex items-center justify-between cursor-pointer font-semibold list-none">
+            <span>Is there a long-term contract?</span>
+            <i data-lucide="chevron-down" class="chev w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+          </summary>
+          <p class="mt-3 leading-relaxed" style="opacity:0.85;"><mark class="bg-fuchsia-200 text-fuchsia-900 px-1 rounded">[REPLACE-ME: confirm actual policy — drafted here as no long-term contract, cancel anytime]</mark></p>
+        </details>
+        <details class="bg-dominant r-card p-5 border" style="border-color:var(--color-line);">
+          <summary class="flex items-center justify-between cursor-pointer font-semibold list-none">
+            <span>What should I wear or bring to my first session?</span>
+            <i data-lucide="chevron-down" class="chev w-5 h-5 flex-shrink-0" aria-hidden="true"></i>
+          </summary>
+          <p class="mt-3 leading-relaxed" style="opacity:0.85;">Comfortable clothes you can move in and supportive, closed-toe shoes. We'll have water on hand — just bring yourself.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FINAL CTA + BOOKING FORM ================= -->
+  <section id="book" class="max-w-4xl mx-auto px-6 py-16 md:py-24">
+    <div class="text-center mb-10" data-animate="fade-up">
+      <h2 class="font-serif font-semibold" style="font-size:clamp(1.75rem,3vw,2.25rem);">
+        Come try it. No pressure, no contract.
+      </h2>
+      <p class="mt-4 text-lg leading-relaxed max-w-xl mx-auto" style="opacity:0.85;">
+        Call us directly, or leave your name and number and we'll reach out to find a time that works.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 items-stretch">
+      <div class="bg-secondary r-card p-8 text-center flex flex-col items-center justify-center h-full" data-animate="fade-up">
+        <i data-lucide="phone-call" class="w-8 h-8 mb-4" style="color:var(--color-accent);" aria-hidden="true"></i>
+        <p class="font-serif font-semibold text-xl mb-2">Prefer to talk it through?</p>
+        <p class="opacity-85 mb-5">Call or text us directly — a real person will help you find a class time.</p>
+        <a href="tel:(555) 123-4567" class="btn-primary r-pill px-7 py-4 text-base font-semibold inline-flex items-center gap-2" style="min-height:52px;">
+          <i data-lucide="phone" class="w-5 h-5" aria-hidden="true"></i>
+          (555) 123-4567
+        </a>
+      </div>
+
+      <form action="#REPLACE-ME-FORM-ACTION" method="POST" class="bg-dominant r-card p-8 border h-full" style="border-color:var(--color-line);" data-animate="fade-up">
+        <div class="mb-5">
+          <label for="fname" class="block font-semibold mb-2">Full name <span style="color:var(--color-accent);">*</span></label>
+          <input id="fname" name="fname" type="text" required
+                 class="w-full px-4 py-3 r-card border bg-dominant" style="border-color:var(--color-line); min-height:48px;">
+        </div>
+        <div class="mb-5">
+          <label for="fphone" class="block font-semibold mb-2">Phone number <span style="color:var(--color-accent);">*</span></label>
+          <input id="fphone" name="fphone" type="tel" required
+                 class="w-full px-4 py-3 r-card border bg-dominant" style="border-color:var(--color-line); min-height:48px;">
+        </div>
+        <div class="mb-5">
+          <label for="ftime" class="block font-semibold mb-2">Best time to reach you</label>
+          <input id="ftime" name="ftime" type="text" placeholder="e.g. weekday mornings"
+                 class="w-full px-4 py-3 r-card border bg-dominant" style="border-color:var(--color-line); min-height:48px;">
+        </div>
+        <div class="mb-6 flex items-start gap-3">
+          <input id="consent" name="consent" type="checkbox" required class="mt-1 w-5 h-5 flex-shrink-0">
+          <label for="consent" class="text-sm leading-relaxed">
+            I agree to the <a href="#REPLACE-ME-PRIVACY-POLICY" class="link-affordance">Privacy Policy</a> and to be contacted about booking my free session.
+          </label>
+        </div>
+        <button type="submit" class="btn-primary r-pill w-full py-4 text-base font-semibold" style="min-height:52px;">
+          Request My Free Session
+        </button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="border-t" style="border-color:var(--color-line);">
+  <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-sm">
+    <div>
+      <p class="font-serif font-semibold text-lg mb-2">Vitality Circle</p>
+      <p style="opacity:0.7;">Stronger every decade.</p>
+    </div>
+    <div>
+      <p class="font-semibold mb-2">Visit or call</p>
+      <p style="opacity:0.7;">123 Wellness Street, Suite 100</p>
+      <p style="opacity:0.7;">(555) 123-4567</p>
+    </div>
+    <div>
+      <p class="font-semibold mb-2">Legal</p>
+      <a href="#REPLACE-ME-PRIVACY-POLICY" class="link-affordance block mb-1">Privacy Policy</a>
+      <a href="#REPLACE-ME-TERMS" class="link-affordance block">Terms</a>
+    </div>
+  </div>
+  <p class="text-center text-xs pb-8" style="opacity:0.5;">© 2026 Vitality Circle. All rights reserved.</p>
+</footer>
+
+<!-- ================= STICKY MOBILE CTA BAR ================= -->
+<div class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-dominant border-t px-4 py-3 flex gap-3" style="border-color:var(--color-line); padding-bottom:calc(0.75rem + env(safe-area-inset-bottom, 0px));">
+  <a href="tel:(555) 123-4567" class="btn-ghost r-pill flex-1 flex items-center justify-center gap-2 text-sm font-semibold" style="min-height:48px;">
+    <i data-lucide="phone" class="w-4 h-4" style="color:var(--color-accent);" aria-hidden="true"></i> Call
+  </a>
+  <a href="#book" class="btn-primary r-pill flex-1 flex items-center justify-center text-sm font-semibold" style="min-height:48px;">
+    Book Free Session
+  </a>
+</div>
+<div class="md:hidden h-20" aria-hidden="true"></div> <!-- spacer so sticky bar never covers footer content -->
+
+<!-- 🔧 INTEGRATION POINT: Meta Pixel / Conversions API base code — paste in <head> for standalone deployment. -->
+<!-- 🔧 INTEGRATION POINT: Exit-intent script (mouse-leave listener triggering an offer modal) — hook below, wire to your ESP/SMS tool. -->
+<!-- 🔧 INTEGRATION POINT: Personalization script (e.g., Mutiny) — this page's content is the default/fallback state. -->
+
+<script>
+  lucide.createIcons();
+
+  // Respect prefers-reduced-motion for every animation below
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance: single orchestrated fade-and-rise on page load (headline, subhead, CTAs)
+    gsap.from('[data-animate="hero-text"] > *', {
+      opacity: 0, y: 24, duration: 0.7, stagger: 0.12, ease: 'power2.out'
+    });
+
+    // Scroll-triggered fade-ins for section content and cards (light stagger, one feeling throughout)
+    gsap.utils.toArray('[data-animate="fade-up"]').forEach((el) => {
+      gsap.from(el, {
+        opacity: 0, y: 20, duration: 0.5, ease: 'power2.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', once: true }
+      });
+    });
+
+    // Gentle pulse-on-hover affordance for the primary CTA only (handled by .btn-primary:hover in CSS;
+    // this adds a one-time soft "breathe" cue the first time it scrolls into view)
+    gsap.utils.toArray('#book .btn-primary').forEach((btn) => {
+      gsap.fromTo(btn, { scale: 1 }, {
+        scale: 1.03, duration: 0.9, ease: 'sine.inOut', yoyo: true, repeat: 1,
+        scrollTrigger: { trigger: btn, start: 'top 90%', once: true }
+      });
+    });
+  }
+</script>
+
+</body>
+</html>
